@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration  status="error">
+    <Appenders>
+        <Console name="ConsoleLog" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d Nani -(%p) - %C [%M] - (%p) %m %n </Pattern>
+            </PatternLayout>
+        </Console>
+        <File name="LogToFile" filename="logs/myapp.log" append="true" createOnDemand="true">
+            <PatternLayout>
+                <Pattern>%d Nani -(%p) - %C [%M] - (%p) %m %n </Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="info" >
+            <AppenderRef ref="ConsoleLog"/>
+            <AppenderRef ref="LogToFile"/>
+        </Root>
+    </Loggers>
+</Configuration>

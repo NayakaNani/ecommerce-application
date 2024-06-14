@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+         xmlns:b="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http>
+        <csrf disabled="true" />
+        <intercept-url pattern="/getAllUsers" access="permitAll()" />
+        <intercept-url pattern="/home" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/addToCart" access="isAuthenticated()" />
+        <intercept-url pattern="/getParticularUserStarter" access="hasRole('ROLE_ADMIN')" />
+
+        <intercept-url pattern="/getParticularUser" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/updateUserStarterOne" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/deleteUserStarter" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/deleteUser" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/home" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/userStatus" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/logout" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+        <intercept-url pattern="/signout" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+
+        <intercept-url pattern="/addToCart" access="isAuthenticated()" />
+        <intercept-url pattern="/getCartProducts" access="isAuthenticated()" />
+        <intercept-url pattern="/removeCartProduct" access="isAuthenticated()" />
+        <intercept-url pattern="/deleteUserCart" access="isAuthenticated()" />
+        <intercept-url pattern="/placeOrder" access="isAuthenticated()" />
+        <intercept-url pattern="/placeOrders" access="isAuthenticated()" />
+        <intercept-url pattern="/getOrders" access="isAuthenticated()" />
+        <intercept-url pattern="/metaDetails" access="isAuthenticated()" />
+        <intercept-url pattern="/orderResult" access="isAuthenticated()" />
+
+        <form-login
+                login-page="/login" login-processing-url="/signIn"
+                username-parameter="username"
+                password-parameter="password"
+                authentication-success-handler-ref="customSuccessHandler"
+                authentication-failure-handler-ref="customFailureHandler"
+        />
+        <logout
+                logout-url="/logout" logout-success-url="/signout"
+        />
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="jdbcUserDetailsManager">
+            <password-encoder ref="passwordEncoder" />
+        </authentication-provider>
+    </authentication-manager>
+
+
+    <b:bean id="jdbcUserDetailsManager" class="org.springframework.security.provisioning.JdbcUserDetailsManager">
+        <b:property name="dataSource" ref="dataSource"/>
+        <b:property name="usersByUsernameQuery" value="SELECT name, password, enabled FROM users WHERE name = ?"/>
+        <b:property name="authoritiesByUsernameQuery" value="SELECT name, role FROM users WHERE name = ?"/>
+    </b:bean>
+
+    <b:import resource="beansConfig.xml" />
+
+</b:beans>
