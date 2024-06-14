@@ -1,4 +1,4 @@
-# ecommerce-application
+# E-Commerce-Application
 An REST API based E-Commerce Application
 
 MVCProject - acts as client;
